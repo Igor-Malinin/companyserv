@@ -1,34 +1,28 @@
 package com.labs.companyserv.model.converter;
 
-import com.labs.microver4.entity.PgUser;
-import com.labs.microver4.model.UserDto;
+import com.labs.companyserv.entity.PgCompany;
+import com.labs.companyserv.model.CompanyDto;
 
-public class UserDtoConverter {
+public class CompanyDtoConverter {
 
-    public static PgUser toEntity(UserDto dto) {
-        PgUser pgUser = new PgUser();
-        pgUser.setId(dto.getId());
-        pgUser.setName(dto.getName());
-        pgUser.setEmail(dto.getEmail());
-        pgUser.setLogin(dto.getLogin());
-        pgUser.setPassword(dto.getPassword());
-        pgUser.setEnabled(dto.getEnabled());
-        pgUser.setCompanyId(dto.getCompanyId());
+    public static PgCompany toEntity(CompanyDto dto) {
+        PgCompany pgCompany = new PgCompany();
+        pgCompany.setId(dto.getId());
+        pgCompany.setCompanyName(dto.getCompanyName());
+        pgCompany.setDirectorId(dto.getDirectorId());
+        pgCompany.setDirectorName(dto.getDirectorName());
 
-        return pgUser;
+        return pgCompany;
     }
 
-    public static UserDto convertEntityToDto(PgUser pgUser) {
-        UserDto userDto = new UserDto();
+    public static CompanyDto toDto(PgCompany pgCompany) {
+        CompanyDto companyDto = new CompanyDto();
 
-        userDto.setId(pgUser.getId());
-        userDto.setName(pgUser.getName());
-        userDto.setEmail(pgUser.getEmail());
-        userDto.setLogin(pgUser.getLogin());
-        userDto.setPassword(pgUser.getPassword());
-        userDto.setEnabled(pgUser.getEnabled());
-        userDto.setCompanyId(pgUser.getCompanyId());
+        companyDto.setId(pgCompany.getId());
+        companyDto.setCompanyName(pgCompany.getCompanyName());
+        companyDto.setDirectorId(pgCompany.getDirectorId());
+        companyDto.setDirectorName(pgCompany.getDirectorName());
 
-        return userDto;
+        return companyDto;
     }
 }

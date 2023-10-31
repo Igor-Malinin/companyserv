@@ -1,7 +1,7 @@
-package com.labs.microver4.repository;
+package com.labs.companyserv.repository;
 
-import com.labs.microver4.entity.PgUser;
+import com.labs.companyserv.entity.PgCompany;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface PgUserRepository extends JpaRepository<PgUser, String> {
+public interface PgCompanyRepository extends JpaRepository<PgCompany, String> {
 }

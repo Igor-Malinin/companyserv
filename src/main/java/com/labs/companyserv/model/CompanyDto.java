@@ -1,16 +1,14 @@
-package com.labs.microver4.model;
+package com.labs.companyserv.model;
 
+import jakarta.persistence.Column;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
-public class UserDto {
+public class CompanyDto {
     private String id;
-    private String name;
-    private String email;
-    private String login;
-    private String password;
-    private Boolean enabled;
-    private Long companyId;
+    private String companyName;
+    private String directorId;
+    private String directorName;
 }

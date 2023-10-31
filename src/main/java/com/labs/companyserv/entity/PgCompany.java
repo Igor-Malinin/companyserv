@@ -1,4 +1,4 @@
-package com.labs.microver4.entity;
+package com.labs.companyserv.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
@@ -8,33 +8,23 @@ import org.hibernate.annotations.GenericGenerator;
 @Getter
 @Setter
 @Entity
-@Table(name = "user", schema = "public")
+@Table(name = "company", schema = "company-schema")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class PgUser {
+public class PgCompany {
     @Id
     @GeneratedValue(generator = "uuid2")
     @GenericGenerator(name = "uuid2", strategy = "org.hibernate.id.UUIDGenerator")
     @Column(name = "id")
     private String id;
 
-    @Column(name = "name")
-    private String name;
+    @Column(name = "companyName")
+    private String companyName;
 
-    @Column(name = "email")
-    private String email;
+    @Column(name = "directorId")
+    private String directorId;
 
-    @Column(name = "login")
-    private String login;
-
-    @JsonIgnore
-    @Column(name = "password")
-    private String password;
-
-    @Column(name = "enabled")
-    private Boolean enabled;
-
-    @Column(name = "companyId")
-    private Long companyId;
+    @Column(name = "directorName")
+    private String directorName;
 }
