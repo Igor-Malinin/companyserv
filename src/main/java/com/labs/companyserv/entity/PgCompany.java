@@ -25,6 +25,6 @@ public class PgCompany {
     @Column(name = "directorId")
     private String directorId;
 
-    @Column(name = "directorName")
-    private String directorName;
+    @Column(name = "description")
+    private String description;
 }

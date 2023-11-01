@@ -12,4 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 public interface CompanyServiceFeignClients {
     @GetMapping("/exists-by-id/{id}")
     Boolean existsById (@PathVariable String id);
+
+    @GetMapping("/get-dir-name/{id}")
+    String getDirName (@PathVariable String id);
 }

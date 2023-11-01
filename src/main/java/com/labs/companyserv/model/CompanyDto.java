@@ -10,5 +10,6 @@ public class CompanyDto {
     private String id;
     private String companyName;
     private String directorId;
+    private String description;
     private String directorName;
 }

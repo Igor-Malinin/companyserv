@@ -25,8 +25,7 @@ public class CompanyService {
     public String createCompany(CompanyDto companyDto) {
         Boolean exist = companyServiceFeignClients.existsById(companyDto.getDirectorId());
         if(!exist) {
-            pgCompanyRepository.save(CompanyDtoConverter.toEntity(companyDto));
-            throw new EntityNotFoundException("Компания создана. Директор с id = %s не существует".formatted(companyDto.getDirectorId()));
+            throw new EntityNotFoundException("Директор с id = %s не существует".formatted(companyDto.getDirectorId()));
         }
 
         return pgCompanyRepository.save(CompanyDtoConverter.toEntity(companyDto)).getId();
@@ -38,11 +37,20 @@ public class CompanyService {
     }
 
     @Transactional
+    public CompanyDto getById(String id) {
+        return CompanyDtoConverter.toDto(pgCompanyRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Компания с id: " + id + " - не существует")));
+    }
+
+    @Transactional
     public List<CompanyDto> getAllCompanies() {
         List<PgCompany> pgCompanies = pgCompanyRepository.findAll();
+
         List<CompanyDto> companyDtos = new ArrayList<>();
         for (PgCompany entity : pgCompanies) {
-            companyDtos.add(CompanyDtoConverter.toDto(entity));
+            CompanyDto companyDto = CompanyDtoConverter.toDto(entity);
+            companyDto.setDirectorName(companyServiceFeignClients.getDirName(entity.getDirectorId()));
+            companyDtos.add(companyDto);
         }
         return companyDtos;
     }
