@@ -1,6 +1,24 @@
+server:
+  port: 8081
 spring:
   application:
     name: company-service
-  cloud:
-    config:
-      uri: ${CONFIG_SERVER_URL}
+  datasource:
+    url: jdbc:postgresql://localhost:5432/micro?currentSchema=company-schema
+    username: postgres
+    password: 1
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      dll-auto: none
+  liquibase:
+    change-log: "classpath:db/changelog/2023/11/01-01-changelog.xml"
+    enabled: true
+#  cloud:
+#    config:
+#      uri: ${CONFIG_SERVER_URL}
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka

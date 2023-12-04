@@ -10,7 +10,7 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/companies")
+@RequestMapping("/")
 public class CompanyController {
 
     private final CompanyService companyService;
@@ -35,10 +35,18 @@ public class CompanyController {
         return companyService.getAllCompanies();
     }
 
+}
+
+
 
 //    private final Config config;
-//    @GetMapping
+//
+//    @GetMapping("/property")
 //    public String getCompanyProperty() {
 //        return config.getCompanyProperty();
 //    }
-}
+//
+//    @GetMapping("/desc")
+//    public String getDescription() {
+//        return config.getDescription();
+//    }

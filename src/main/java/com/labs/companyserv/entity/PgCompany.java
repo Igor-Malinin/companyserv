@@ -15,16 +15,14 @@ import org.hibernate.annotations.GenericGenerator;
 public class PgCompany {
     @Id
     @GeneratedValue(generator = "uuid2")
-    @GenericGenerator(name = "uuid2", strategy = "org.hibernate.id.UUIDGenerator")
+    @GenericGenerator(name = "uuid2",
+        strategy = "org.hibernate.id.UUIDGenerator")
     @Column(name = "id")
     private String id;
-
     @Column(name = "companyName")
     private String companyName;
-
     @Column(name = "directorId")
     private String directorId;
-
     @Column(name = "description")
     private String description;
 }
