@@ -4,12 +4,12 @@ import lombok.Data;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 
-//@Data
-//@Configuration
+@Data
+@Configuration
 public class Config {
-//    @Value("${my.property.company}")
-//    private String companyProperty;
-//
-//    @Value("${description}")
-//    private String description;
+    @Value("${my.property.company}")
+    private String companyProperty;
+
+    @Value("${description}")
+    private String description;
 }

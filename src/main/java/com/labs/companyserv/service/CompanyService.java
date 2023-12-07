@@ -31,18 +31,15 @@ public class CompanyService {
         return pgCompanyRepository.save(CompanyDtoConverter.toEntity(companyDto)).getId();
     }
 
-    @Transactional
     public Boolean existsById(String id) {
         return pgCompanyRepository.existsById(id);
     }
 
-    @Transactional
     public CompanyDto getById(String id) {
         return CompanyDtoConverter.toDto(pgCompanyRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Компания с id: " + id + " - не существует")));
     }
 
-    @Transactional
     public List<CompanyDto> getAllCompanies() {
         List<PgCompany> pgCompanies = pgCompanyRepository.findAll();
 
@@ -54,4 +51,9 @@ public class CompanyService {
         }
         return companyDtos;
     }
+
+    public String deleteCompany() {
+        return "";
+    }
+
 }
