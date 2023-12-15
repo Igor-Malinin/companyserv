@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 
 @Getter
 @Setter
@@ -12,6 +14,7 @@ import org.hibernate.annotations.GenericGenerator;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+//@Where(clause = "deleted=false")
 public class PgCompany {
     @Id
     @GeneratedValue(generator = "uuid2")
@@ -25,4 +28,5 @@ public class PgCompany {
     private String directorId;
     @Column(name = "description")
     private String description;
+    private boolean deleted = Boolean.FALSE;
 }

@@ -11,6 +11,7 @@ public class CompanyDtoConverter {
         pgCompany.setCompanyName(dto.getCompanyName());
         pgCompany.setDirectorId(dto.getDirectorId());
         pgCompany.setDescription(dto.getDescription());
+        pgCompany.setDeleted(dto.isDeleted());
 
         return pgCompany;
     }
@@ -22,6 +23,7 @@ public class CompanyDtoConverter {
         companyDto.setCompanyName(pgCompany.getCompanyName());
         companyDto.setDirectorId(pgCompany.getDirectorId());
         companyDto.setDescription(pgCompany.getDescription());
+        companyDto.setDeleted(pgCompany.isDeleted());
 
         return companyDto;
     }

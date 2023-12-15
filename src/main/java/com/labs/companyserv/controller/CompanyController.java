@@ -4,6 +4,7 @@ import com.labs.companyserv.configuration.Config;
 import com.labs.companyserv.model.CompanyDto;
 import com.labs.companyserv.service.CompanyService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -21,20 +22,24 @@ public class CompanyController {
     }
 
     @GetMapping("/exists-by-id/{companyId}")
-    Boolean existsById (@PathVariable String companyId) {
+    Boolean existsById(@PathVariable String companyId) {
         return companyService.existsById(companyId);
     }
 
     @GetMapping("/get-by-id/{companyId}")
-    CompanyDto getById (@PathVariable String companyId) {
+    CompanyDto getById(@PathVariable String companyId) {
         return companyService.getById(companyId);
     }
 
     @GetMapping("/get-all")
-    List<CompanyDto> getAllCompanies () {
+    List<CompanyDto> getAllCompanies() {
         return companyService.getAllCompanies();
     }
 
+    @DeleteMapping("/delete/{id}")
+    ResponseEntity<String> deleteCompany(@PathVariable String id) {
+        return companyService.deleteCompany(id);
+    }
 }
 
 

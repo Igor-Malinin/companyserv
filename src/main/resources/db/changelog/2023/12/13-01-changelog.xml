@@ -5,7 +5,7 @@
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
                       http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.24.xsd"
         objectQuotingStrategy="QUOTE_ONLY_RESERVED_WORDS">
-    <changeSet id="1698834014962-1" author="ichigo (generated)">
+    <changeSet id="1702482472741-1" author="ichigo (generated)">
         <createTable schemaName="company-schema" tableName="company">
             <column name="id" type="VARCHAR(255)">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="pk_company"/>
@@ -13,6 +13,9 @@
             <column name="company_name" type="VARCHAR(255)"/>
             <column name="director_id" type="VARCHAR(255)"/>
             <column name="description" type="VARCHAR(255)"/>
+            <column name="deleted" type="BOOLEAN">
+                <constraints nullable="false"/>
+            </column>
         </createTable>
     </changeSet>
 

@@ -7,19 +7,36 @@ import com.labs.companyserv.repository.PgCompanyRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.kafka.clients.admin.NewTopic;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
+import org.springframework.http.ResponseEntity;
+import org.springframework.kafka.annotation.KafkaListener;
+import org.springframework.kafka.config.TopicBuilder;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Slf4j
 @Service
 @RequiredArgsConstructor
-@Transactional(readOnly = true)
 public class CompanyService {
-    private final PgCompanyRepository pgCompanyRepository;
-    private final CompanyServiceFeignClients companyServiceFeignClients;
+    @Autowired
+    private PgCompanyRepository pgCompanyRepository;
+
+    @Autowired
+    private CompanyServiceFeignClients companyServiceFeignClients;
+
+    @Autowired
+    private KafkaTemplate<String, String> kafkaTemplate;
+
+    @Value("${spring.kafka.producer.topic.company-deleted}")
+    private String companyDeletedTopic;
 
     @Transactional
     public String createCompany(CompanyDto companyDto) {
@@ -32,12 +49,28 @@ public class CompanyService {
     }
 
     public Boolean existsById(String id) {
-        return pgCompanyRepository.existsById(id);
+        Optional<PgCompany> pgCompany = pgCompanyRepository.findById(id);
+        EntityNotFoundException exception = new EntityNotFoundException("компания не найдена");;
+        if(pgCompany.isPresent()) {
+            if(!pgCompany.get().isDeleted())
+                return pgCompanyRepository.existsById(id);
+            else
+                throw exception;
+        }
+        else
+            throw exception;
     }
 
     public CompanyDto getById(String id) {
-        return CompanyDtoConverter.toDto(pgCompanyRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Компания с id: " + id + " - не существует")));
+        EntityNotFoundException exception = new EntityNotFoundException(
+                "Компания с id: " + id + " - не существует");
+        CompanyDto companyDto = CompanyDtoConverter
+                .toDto(pgCompanyRepository.findById(id)
+                .orElseThrow(() -> exception));
+        if(!companyDto.isDeleted())
+            return companyDto;
+        else
+            throw exception;
     }
 
     public List<CompanyDto> getAllCompanies() {
@@ -52,8 +85,23 @@ public class CompanyService {
         return companyDtos;
     }
 
-    public String deleteCompany() {
-        return "";
+    public ResponseEntity<String> deleteCompany(String id)  {
+        PgCompany pgCompany = pgCompanyRepository.findById(id).orElseThrow(() ->
+                new EntityNotFoundException("Компания не найдена"));
+        pgCompany.setDeleted(true);
+        pgCompanyRepository.save(pgCompany);
+        kafkaTemplate.send(companyDeletedTopic, id);
+
+        return ResponseEntity.ok("Компания удалена");
     }
 
+    @KafkaListener(topics = "${spring.kafka.consumer.topic.company-deleted-user}",
+            groupId = "${spring.kafka.consumer.group-id}")
+    public void handleCompanyDeleted(String id) {
+        Optional<PgCompany> pgCompany = pgCompanyRepository.findById(id);
+        if(pgCompany.isPresent())
+            pgCompanyRepository.delete(pgCompany.get());
+        else
+            throw new EntityNotFoundException("Компания не найдена");
+    }
 }

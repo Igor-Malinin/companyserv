@@ -12,4 +12,5 @@ public class CompanyDto {
     private String directorId;
     private String description;
     private String directorName;
+    private boolean deleted;
 }
