@@ -78,6 +78,8 @@ public class CompanyService {
 
         List<CompanyDto> companyDtos = new ArrayList<>();
         for (PgCompany entity : pgCompanies) {
+            if (entity.isDeleted())
+                continue;
             CompanyDto companyDto = CompanyDtoConverter.toDto(entity);
             companyDto.setDirectorName(companyServiceFeignClients.getDirName(entity.getDirectorId()));
             companyDtos.add(companyDto);
